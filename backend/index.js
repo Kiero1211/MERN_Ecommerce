@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 
 // Utils
 import connectDB from "./config/db.js"
+import routes from "./routes/index.js";
 
 // Initialize
 dotenv.config();
@@ -18,9 +19,7 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(routes);
 
-app.get("/", (req, res) => {
-    res.send("Hello backend")
-})
 
 app.listen(port, () => console.log(`Server running on port: http://localhost:${port}`));
