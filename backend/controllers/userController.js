@@ -35,4 +35,41 @@ const createUser = asyncHandler(async (req, res) => {
     }
 });
 
-export { createUser };
+const loginUser = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+        const isValidPassword = bcrypt.compare(password, existingUser.password);
+
+        if (isValidPassword) {
+            generateToken(res, existingUser._id);
+
+            return res.status(200).json({
+                _id: existingUser._id,
+                username: existingUser.username,
+                email: existingUser.email,
+                password: existingUser.password
+            });
+        }
+    }
+})
+
+const logoutUser = asyncHandler(async (req, res) => {
+    res.cookie("jwt", "", {
+        expires: new Date(0)
+    })
+
+    res.status(200).json({ message: "Logged out successfully" });
+})
+
+const getAllUsers = asyncHandler(async (req, res) => {
+    try {
+        const results = await User.find();
+        return res.status(200).json({ users: results });
+    } catch (error) {
+        throw new Error(error.message);
+    }
+})
+
+export { createUser, loginUser, logoutUser, getAllUsers };
