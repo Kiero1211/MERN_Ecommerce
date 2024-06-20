@@ -2,7 +2,7 @@ import asyncHandler from "./asyncHandler.js";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
-const authenticate = asyncHandler(async (req, res, next) => {
+const authorize = asyncHandler(async (req, res, next) => {
     const token = req.cookies.jwt;
     if (!token) {
         throw new Error("Authorize failed, no token");
@@ -27,4 +27,4 @@ const authorizeAdmin = (req, res, next) => {
     }
 }
 
-export { authenticate, authorizeAdmin };
+export { authorize, authorizeAdmin };

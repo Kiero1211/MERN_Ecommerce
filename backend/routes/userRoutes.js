@@ -1,12 +1,35 @@
 import { Router } from "express";
-import { createUser, loginUser, logoutUser, getAllUsers } from "../controllers/userController.js";
-import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware.js";
-const route = Router();
+import {
+    createUser,
+    loginUser,
+    logoutUser,
+    getAllUsers,
+    getCurrentUserProfile,
+    updateCurrentUserProfile,
+    deleteUserByID,
+    getUserByID,
+    updateUserByID
+} from "../controllers/userController.js";
+import { authorize, authorizeAdmin } from "../middlewares/authMiddleware.js";
+const router = Router();
 
-route.get("/", authenticate, authorizeAdmin, getAllUsers);
+router.route("/").post(createUser);
 
-route.post("/", createUser);
-route.post("/auth", loginUser);
-route.post("/logout", logoutUser);
+router.route("auth").post(loginUser);
 
-export default route;
+router.route("/logout").get(logoutUser);
+
+router.route("/profile")
+    .get(authorize, getCurrentUserProfile)
+    .put(authorize, updateCurrentUserProfile);
+
+
+// ----- Admin Routes -----
+//GET
+router.route("/").get(authorize, authorizeAdmin, getAllUsers);
+router.route("/:id")
+    .get(authorize, authorizeAdmin, getUserByID)
+    .put(authorize, authorizeAdmin, updateUserByID)
+    .delete(authorize, authorizeAdmin, deleteUserByID);
+
+export default router;
