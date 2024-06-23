@@ -8,12 +8,24 @@ import {
 	AiOutlineShoppingCart,
 } from "react-icons/ai";
 import { FaHeart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navigation.css";
+
+import {useDispatch, useSelector} from "react-redux";
+import { useLoginMutation } from "../../redux/api/userApiSlice";
+import { logout } from "../../redux/features/auth/authSlice";
+
+import { userInfoSelector } from "../../redux/selectors";
 
 const Navigation = () => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+	const dispatch = useDispatch();
+	const userInfo = useSelector(userInfoSelector);
+	const navigate = useNavigate();
+
+	const [loginApiCall] = useLoginMutation();
+
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
@@ -71,6 +83,15 @@ const Navigation = () => {
 						<FaHeart className="mr-2 mt-[3rem]" size={26}/>
 						<span className="hidden nav-item-name mt-[3rem]">FAVORITE</span>
 					</Link>
+				</div>
+
+				<div className="relative">
+					<button 
+						className="flex items-center text-gray-8000 focus:outline-none"
+						onClick={toggleDropdown}
+					>
+						{userInfo && <span className="text-white">{userInfo.username}</span>}
+					</button>
 				</div>
 
 				<ul>
