@@ -15,9 +15,9 @@ const router = Router();
 
 router.route("/").post(createUser);
 
-router.route("auth").post(loginUser);
+router.route("/auth").post(loginUser);
 
-router.route("/logout").get(logoutUser);
+router.route("/logout").post(logoutUser);
 
 router.route("/profile")
     .get(authorize, getCurrentUserProfile)
