@@ -155,6 +155,9 @@ const updateCurrentUserProfile = asyncHandler(async (req, res) => {
     }
 })
 
+/*
+    PUT /api/users/:id
+*/
 const updateUserByID = asyncHandler(async (req, res) => {
     try {
         const { username, email, password } = req.body;
