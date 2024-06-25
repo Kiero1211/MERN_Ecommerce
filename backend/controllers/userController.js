@@ -148,7 +148,7 @@ const updateCurrentUserProfile = asyncHandler(async (req, res) => {
             _id: currentUser._id,
             username: currentUser.username,
             email: currentUser.email,
-            password: currentUser.password
+            isAdmin: currentUser.isAdmin
         });
     } catch (error) {
         throw new Error(error.message);

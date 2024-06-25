@@ -6,3 +6,10 @@ export const userInfoSelector = createSelector(
         return state.auth.userInfo || {}
     }
 );
+
+export const isAdminSelector = createSelector(
+    [(state) => state],
+    (state) => {
+        return state.auth.userInfo.isAdmin || false
+    }
+)
