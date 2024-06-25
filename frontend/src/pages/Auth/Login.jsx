@@ -35,11 +35,10 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             const res = await login({email, password}).unwrap();
-            console.log("Mutation call: ", res);
             dispatch(setCredentials({...res}));
+            toast.success("Logged in successfully");
         } catch (error) {
             toast.error(error?.data?.message || error.message);
         }

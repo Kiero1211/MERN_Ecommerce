@@ -55,7 +55,7 @@ const loginUser = asyncHandler(async (req, res) => {
                 _id: existingUser._id,
                 username: existingUser.username,
                 email: existingUser.email,
-                password: existingUser.password
+                isAdmin: existingUser.isAdmin
             });
         } else {
             throw new Error("Wrong password");
