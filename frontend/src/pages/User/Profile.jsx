@@ -72,9 +72,9 @@ function Profile() {
 		};
 		if (validateInputs(formInputs)) {
 			try {
-				const res = await updateProfileApiCall(formInputs);
+				const res = await updateProfileApiCall(formInputs).unwrap();
 				dispatch(setCredentials({ ...res }));
-				toast.success("Updated successfully");
+				toast.success("Profile updated successfully");
 			} catch (error) {
 				console.log(error.message);
 				toast.error(error.message);
