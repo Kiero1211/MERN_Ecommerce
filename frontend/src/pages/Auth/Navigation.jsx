@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import {
 	AiOutlineHome,
@@ -40,13 +40,20 @@ const Navigation = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
 
-	const toggleSidebar = () => {
-		setIsSidebarOpen(!isSidebarOpen);
+	const openSidebar = () => {
+		setIsSidebarOpen(true);
 	};
 
 	const closeSidebar = () => {
 		setIsSidebarOpen(false);
 	};
+
+
+	// Detect if sidebar is closed, then close dropdown
+	useEffect(() => {
+		if (!isSidebarOpen)
+			setIsDropdownOpen(false);
+	}, [isDropdownOpen, isSidebarOpen])
 
 	const sidebarClassName = clsx(
 		isSidebarOpen && "show",
@@ -74,7 +81,9 @@ const Navigation = () => {
 		<div
 			style={{ zIndex: 99 }}
 			className={sidebarClassName}
-			id="navigation-container">
+			id="navigation-container"
+			onMouseOver={() => openSidebar()}
+			onMouseLeave={() => closeSidebar()}>
 			<div className="flex flex-col justify-center space-y-4">
 				<Link
 					to="/"
