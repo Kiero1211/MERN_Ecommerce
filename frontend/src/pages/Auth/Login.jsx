@@ -19,7 +19,7 @@ function Login() {
 
     const dispatch = useDispatch();
 
-    const [login, {isLoading}] = useLoginMutation();
+    const [loginApiCall, {isLoading}] = useLoginMutation();
 
     const {userInfo} = useSelector(userInfoSelector);
 
@@ -36,7 +36,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await login({email, password}).unwrap();
+            const res = await loginApiCall({email, password}).unwrap();
             dispatch(setCredentials({...res}));
             toast.success("Logged in successfully");
         } catch (error) {
