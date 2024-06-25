@@ -16,7 +16,7 @@ function Register() {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     const dispatch = useDispatch();
-    const userInfo = useSelector(userInfoSelector);
+    const {userInfo} = useSelector(userInfoSelector);
     const navigate = useNavigate()
 
     const [registerApiCall, {isLoading}] = useRegisterMutation();
@@ -27,12 +27,169 @@ function Register() {
 
     useEffect(() => {
         if (userInfo) {
-            navigate(redirect, {state: "Already logged in"});
+            navigate(redirect);
         }
     }, [navigate, redirect, userInfo]);
 
-    return (
+    const validateForm = () => {
+        const usernameErrorElement = document.querySelector(".usernameError");
+        const emailErrorElement = document.querySelector(".emailError");
+        const passwordErrorElement = document.querySelector(".passwordError");
+        const confirmPasswordErrorElement = document.querySelector(".confirmPasswordError");
         
+        let usernameError = false;
+        let emailError = false;
+        let passwordError = false;
+        let confirmPasswordError = false;
+
+        const emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+        try {
+            // Validate username
+            if (!username) {
+                usernameErrorElement.innerHTML = "*Please enter your username";
+                usernameError = true;
+            } else {
+                usernameErrorElement.innerHTML = "";
+            }
+
+            // Validate email
+            if (!email) {
+                emailErrorElement.innerHTML = "*Please enter your email";
+                emailError = true;
+            } else if (!email.match(emailPattern)) {
+                emailErrorElement.innerHTML = "*Invalid email";
+                emailError = true;
+            } else {
+                emailErrorElement.innerHTML = "";
+            }
+
+            // Validate password
+            if (!password) {
+                passwordErrorElement.innerHTML = "*Please enter your password";
+                passwordError = true;
+            } else {
+                passwordErrorElement.innerHTML = "";
+            }
+            
+            // Validate confirm password
+            if (!confirmPassword) {
+                confirmPasswordErrorElement.innerHTML = "*Please confirm your password";
+                confirmPasswordError = true;
+            } else if (password !== confirmPassword) {
+                confirmPasswordErrorElement.innerHTML = "*Passwords does not match"
+                confirmPasswordError = true;
+            } else {
+                confirmPasswordErrorElement.innerHTML = "";
+            }
+            
+            if (usernameError || emailError || passwordError || confirmPasswordError) {
+                throw new Error("Please re-check your information");
+            } 
+        } catch (error) {
+            toast.error(error.message);
+            return false;
+        }
+        return true;
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+            try {
+                const res = await registerApiCall({username, email, password}).unwrap();
+                dispatch(setCredentials({...res}));
+                navigate(redirect);
+                toast.success("Registerd successfully");
+            } catch (error) {
+                console.log(error.message);
+                toast.error(error.data.message);
+            }
+        }
+    }
+
+    return (
+        <section className="pl-[10rem] flex flex-wrap">
+            <div className="mr-[4rem] mt-[5rem]">
+                <h1 className="text-2xl font-semibold mb-4">Register</h1>
+
+                <form onSubmit={handleSubmit} className="container w-[40rem]">
+                    <div className="my-[2rem]">
+                        <label htmlFor="username" className="block text-sm font-medium text-white">Name</label>
+                        <input 
+                            type="text" 
+                            name="username" 
+                            id="username" 
+                            className="mt-1 p-2 border rounded w-full" 
+                            placeholder="Enter username..."
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <div className="usernameError" style={{color: "red"}}></div>
+                    </div>
+                    <div className="my-[2rem]">
+                        <label htmlFor="email" className="block text-sm font-medium text-white">Email Address</label>
+                        <input 
+                            type="text" 
+                            name="email" 
+                            id="email" 
+                            className="mt-1 p-2 border rounded w-full" 
+                            placeholder="Enter email..."
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <div className="emailError" style={{color: "red"}}></div>
+                    </div>
+                    <div className="my-[2rem]">
+                        <label htmlFor="password" className="block text-sm font-medium text-white">Password</label>
+                        <input 
+                            type="password" 
+                            name="password" 
+                            id="password" 
+                            className="mt-1 p-2 border rounded w-full" 
+                            placeholder="Enter password..."
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <div className="passwordError" style={{color: "red"}}></div>
+                    </div>
+                    <div className="my-[2rem]">
+                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-white">Confirm Password</label>
+                        <input 
+                            type="password" 
+                            name="confirmPassword" 
+                            id="confirmPassword" 
+                            className="mt-1 p-2 border rounded w-full" 
+                            placeholder="Confirm password..."
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
+                        <div className="confirmPasswordError" style={{color: "red"}}></div>
+                    </div>
+
+                    <button
+                        disabled={isLoading}
+                        type="submit"
+                        className="bg-pink-500 text-white px-4 py-2 rounded cursor-pointer my-[1rem] hover:opacity-80"
+                    >
+                        {isLoading ? "Registering..." : "Register"}
+                    </button>
+
+                    {isLoading && <Loader />}
+                </form>
+
+                <div className="mt-4">
+                    <p className="text-white">
+                        Already have an account? {" "}
+                        <Link 
+                        to={redirect ? `/login?redirect=${redirect}` : "/login"} 
+                        className="text-pink-500 hover:underline">
+                            Login    
+                        </Link> 
+                    </p>
+                </div>
+            </div>
+        </section>
     );
 }
 

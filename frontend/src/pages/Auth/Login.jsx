@@ -29,7 +29,7 @@ function Login() {
 
     useEffect(() => {
         if (userInfo) {
-            navigate(redirect, {state: "Already logged in"})
+            navigate(redirect, {state: "Already logged in"});
         }
     }, [navigate, redirect, userInfo]);
 
@@ -61,6 +61,7 @@ function Login() {
                                 type="email" 
                                 id="email" 
                                 className="mt-1 p-2 border rounded w-full" 
+                                placeholder="Enter email..."
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
@@ -76,6 +77,7 @@ function Login() {
                                 type="password" 
                                 id="password" 
                                 className="mt-1 p-2 border rounded w-full" 
+                                placeholder="Enter password..."
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
@@ -83,7 +85,7 @@ function Login() {
                         <button
                             disabled={isLoading}
                             type="submit"
-                            className="bg-pink-500 text-white px-4 py-2 rounded cursor-pointer my-[1rem]"
+                            className="bg-pink-500 text-white px-4 py-2 rounded cursor-pointer my-[1rem] hover:opacity-80"
                         >
                             {isLoading ? "Signing In..." : "Sign In"}
                         </button>
