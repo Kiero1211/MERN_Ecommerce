@@ -41,7 +41,7 @@ const createUser = asyncHandler(async (req, res) => {
 /*
     POST /api/users/auth
 */
-const loginUser = asyncHandler(async (req, res) => {
+const loginUser = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
     const existingUser = await User.findOne({ email });
 
@@ -49,14 +49,8 @@ const loginUser = asyncHandler(async (req, res) => {
         const isValidPassword = await comparePassword(password, existingUser.password);
 
         if (isValidPassword) {
-            generateToken(res, existingUser._id);
-
-            return res.status(200).json({
-                _id: existingUser._id,
-                username: existingUser.username,
-                email: existingUser.email,
-                isAdmin: existingUser.isAdmin
-            });
+            req.userID = existingUser._id;
+            next();
         } else {
             throw new Error("Wrong password");
         }

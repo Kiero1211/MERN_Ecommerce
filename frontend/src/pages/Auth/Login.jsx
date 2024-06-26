@@ -36,7 +36,7 @@ function Login() {
 		e.preventDefault();
 		try {
 			const res = await loginApiCall({ email, password }).unwrap();
-			dispatch(setCredentials({ ...res }));
+			dispatch(setCredentials({ ...res.currentUser }));
 			navigate(redirect);
 			toast.success("Logged in successfully");
 		} catch (error) {

@@ -10,12 +10,12 @@ import {
     getUserByID,
     updateUserByID
 } from "../controllers/userController.js";
-import { authorize, authorizeAdmin } from "../middlewares/authMiddleware.js";
+import { authorize, authorizeAdmin, generateToken } from "../middlewares/authMiddleware.js";
 const router = Router();
 
 router.route("/").post(createUser);
 
-router.route("/auth").post(loginUser);
+router.route("/auth").post(loginUser, generateToken, authorize, getCurrentUserProfile);
 
 router.route("/logout").post(logoutUser);
 
