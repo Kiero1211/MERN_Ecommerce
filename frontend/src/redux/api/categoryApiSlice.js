@@ -4,11 +4,8 @@ import { CATEGORY_URL } from "../constants";
 export const categoryApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         // GET
-        getAllCategories: builder.query({
-            query: () => ({
-                url: `${CATEGORY_URL}/categories`
-            }),
-            keepUnusedDataFor: 5
+        fetchCategories: builder.query({
+            query: () => `${CATEGORY_URL}`,
         }),
 
         readCategory: builder.query({
@@ -21,7 +18,7 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
         //POST
         createCategory: builder.mutation({
             query: (data) => ({
-                url: `${CATEGORY_URL}`,
+                url: `${CATEGORY_URL}/create`,
                 method: "POST",
                 body: data
             }),
@@ -50,7 +47,7 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
 })
 
 export const {
-    useGetAllCategoriesQuery,
+    useFetchCategoriesQuery,
     useReadCategoryQuery,
     useCreateCategoryMutation,
     useDeleteCategoryMutation,

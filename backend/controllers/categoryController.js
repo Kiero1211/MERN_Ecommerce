@@ -2,15 +2,15 @@ import Category from "../models/Category.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 
 /*
-    GET /api/category/categories
+    GET /api/categories/
 */
 const getAllCategories = asyncHandler(async(req, res) => {
-    const categories = await Category.find({});
-    return res.status(200).json(categories);
+    const categories = await Category.find();
+    return res.json(categories);
 })
 
 /*
-    GET /api/category/:categoryId
+    GET /api/categories/:categoryId
 */
 const readCategory = asyncHandler(async(req, res) => {
     const categoryId = req.params.categoryId;
@@ -24,7 +24,7 @@ const readCategory = asyncHandler(async(req, res) => {
 })
 
 /*
-    POST /api/category/
+    POST /api/categories/create
 */
 const createCategory = asyncHandler(async(req, res) => {
     const {name} = req.body;
@@ -43,7 +43,7 @@ const createCategory = asyncHandler(async(req, res) => {
 })
 
 /*
-    PUT /api/category/:categoryId
+    PUT /api/categories/:categoryId
 */
 const updateCategory = asyncHandler(async(req, res) => {
     const {name} = req.body;
@@ -59,7 +59,7 @@ const updateCategory = asyncHandler(async(req, res) => {
 
 
 /*
-    DELETE /api/category/:categoryId
+    DELETE /api/categories/:categoryId
 */
 const deleteCategory = asyncHandler(async(req, res) => {
     const categoryId = req.params.categoryId;

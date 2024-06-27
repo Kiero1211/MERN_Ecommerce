@@ -12,10 +12,10 @@ import {
 } from "../controllers/categoryController.js";
 
 // Admin routes
-router.route("/").post(authorize, authorizeAdmin, createCategory);
+router.route("/").get(getAllCategories);
+router.route("/create").post(authorize, authorizeAdmin, createCategory);
 router.route("/:categoryId")
     .get(readCategory)
     .put(authorize, authorizeAdmin, updateCategory)
     .delete(authorize, authorizeAdmin, deleteCategory);
-router.route("/categories").get(getAllCategories);
 export default router;
