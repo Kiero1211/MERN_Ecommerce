@@ -3,8 +3,6 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
 const authorize = asyncHandler(async (req, res, next) => {
-    console.log("In authorize");
-    console.log(req.cookies);
     const token = req.cookies.jwt;
     if (!token) {
         throw new Error("Authorize failed, no token");
@@ -30,7 +28,6 @@ const authorizeAdmin = (req, res, next) => {
 }
 
 const generateToken = asyncHandler(async(req, res, next) => {
-    console.log("In generateToken");
     const userID = req.userID;
     const token = jwt.sign({ userID }, process.env.JTW_TOKEN_SECRET, {
         expiresIn: "30d"
@@ -42,7 +39,6 @@ const generateToken = asyncHandler(async(req, res, next) => {
     })
     
     req.cookies.jwt = token;
-    console.log(req.cookies);
     next();
 })
 

@@ -3,8 +3,12 @@ const router = Router();
 
 import { authorize, authorizeAdmin } from "../middlewares/authMiddleware.js";
 
-import { createCategory } from "../controllers/categoryController.js";
+import { 
+    createCategory,
+    updateCategory 
+} from "../controllers/categoryController.js";
 
-router.route("/").post(createCategory);
-
+// Admin routes
+router.route("/").post(authorize, authorizeAdmin, createCategory);
+router.route("/:categoryId").put(authorize, authorizeAdmin, updateCategory);
 export default router;
