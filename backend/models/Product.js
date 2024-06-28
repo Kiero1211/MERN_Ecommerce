@@ -47,21 +47,23 @@ const productSchema = mongoose.Schema({
         required: true
     },
     reviews: [reviewSchema],
+    price: {
+        type: Number,
+        required: true,
+        default: 0
+    },
     rating: {
         type: Number,
         required: true,
         default: 0
     },
-    price: {
+    numReviews: {
         type: Number,
         required: true,
         default: 0
     }
 }, { timestamps: true })
 
-productSchema.virtual("numReviews").get(function() {
-    return this.reviews.length;
-});
 
 const Product = mongoose.model("Product", productSchema);
 export default Product;

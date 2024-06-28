@@ -11,6 +11,8 @@ import routes from "./routes/index.js";
 dotenv.config();
 const port = process.env.PORT || 5000;
 const app = express();
+const __dirname = path.resolve();
+app.use("/uploads", express.static(path.join(__dirname + "/uploads")))
 
 connectDB();
 

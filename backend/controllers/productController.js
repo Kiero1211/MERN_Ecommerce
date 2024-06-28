@@ -1,7 +1,7 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import Product from "../models/Product.js";
 
-
+// ------- GET ---------
 /*
     GET /api/products/all
 */
@@ -70,7 +70,42 @@ const readProduct = asyncHandler(async (req, res) => {
     }
 })
 
+/*
+    GET /api/products/top
+*/
+const fetchTopProducts = asyncHandler(async (req, res) => {
+    try {
+        const limitNumber = 4;
+        const products = await Product
+            .find()
+            .sort({createdAt: -1, rating: -1})
+            .limit(limitNumber)
 
+        return res.status(200).json(products);
+    } catch (error) {
+        throw new Error(error.message);
+    }
+})
+
+/*
+    GET /api/products/top
+*/
+const fetchNewProducts = asyncHandler(async (req, res) => {
+    try {
+        const limitNumber = 5;
+        const products = await Product
+            .find()
+            .sort({createdAt: -1})
+            .limit(limitNumber)
+
+        return res.status(200).json(products);
+    } catch (error) {
+        throw new Error(error.message);
+    }
+})
+
+
+// ------- POST ---------
 /*
     POST /api/products/create
 */
@@ -102,6 +137,45 @@ const createProduct = asyncHandler(async (req, res) => {
     }
 });
 
+/*
+    POST /api/products/:id/reviews/create
+*/
+const createProductReview = asyncHandler( async(req, res) => {
+    try {
+        const {rating, comment} = req.body;
+        const product = await Product.findById(req.params.id);
+        
+        const isAlreadyReviewed = product.reviews.find(review => {
+            return review.user.toString() === req.user._id.toString();
+        })
+
+        if (isAlreadyReviewed) {
+            res.status(400);
+            throw new Error("A user can review only once");
+        }
+
+        const newReview = {
+            name: req.user.username,
+            rating: Number(rating),
+            comment,
+            user: req.user._id
+        }
+
+        // Update product's properties
+        product.reviews.push(newReview);
+        product.numReviews = product.reviews.length;
+        // Round to the 2nd digit
+        product.rating = Math.round((product.reviews.reduce((acc, review) => review.rating + acc, 0) / product.numReviews) * 100) / 100;
+        await product.save();
+
+        return res.status(200).json({message: "Review added sucessfully"});
+    } catch (error) {
+        throw new Error(error.message);
+    }
+});
+
+
+// ------- PUT ---------
 /*
     PUT /api/products/:id
 */
@@ -138,6 +212,8 @@ const updateProduct = asyncHandler(async (req, res) => {
     }
 })
 
+
+// ------- DELETE ---------
 /*
     DELETE /api/products/:id
 */
@@ -157,10 +233,17 @@ const deleteProduct = asyncHandler(async (req, res) => {
 })
 
 export {
+    // Products
     fetchProducts,
     fetchAllProducts,
+    fetchTopProducts,
+    fetchNewProducts,
     readProduct,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+
+    // Reviews
+    createProductReview,
+
 }
