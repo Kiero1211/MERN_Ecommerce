@@ -6,6 +6,8 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
         // GET
         fetchCategories: builder.query({
             query: () => `${CATEGORY_URL}`,
+            providesTags: ["Category"],
+            keepUnusedDataFor: 5
         }),
 
         readCategory: builder.query({
@@ -33,7 +35,6 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
                 body: updatedCategory
             }),
             invalidatesTags: ["Category"]
-
         }),
 
         //DELETE
@@ -41,7 +42,8 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
             query: (categoryId) => ({
                 url: `${CATEGORY_URL}/${categoryId}`,
                 method: "DELETE"
-            })
+            }),
+            invalidatesTags: ["Category"]
         })
     })
 })
