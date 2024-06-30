@@ -111,7 +111,7 @@ const fetchNewProducts = asyncHandler(async (req, res) => {
 */
 const createProduct = asyncHandler(async (req, res) => {
     try {
-        const { name, description, price, category, quantity, brand } = req.fields;
+        const { name, description, price, stock, category, quantity, brand } = req.fields;
         // Server-side validation
         switch (true) {
             case !name:
@@ -120,6 +120,8 @@ const createProduct = asyncHandler(async (req, res) => {
                 throw new Error("Description is required");
             case !price:
                 throw new Error("Price is required");
+            case !stock:
+                throw new Error("Stock is required");
             case !category:
                 throw new Error("Category is required");
             case !quantity:
@@ -133,6 +135,7 @@ const createProduct = asyncHandler(async (req, res) => {
             ...req.fields,
             price: Number(price),
             quantity: Number(quantity),
+            stock: Number(stock)
         });
         await newProduct.save();
         return res.json(newProduct);
@@ -186,7 +189,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 const updateProduct = asyncHandler(async (req, res) => {
     try {
         const requestedProductId = req.params.id;
-        const { name, description, price, category, quantity, brand } = req.fields;
+        const { name, description, price, stock, category, quantity, brand } = req.fields;
         // Server-side validation
         switch (true) {
             case !name:
@@ -195,6 +198,8 @@ const updateProduct = asyncHandler(async (req, res) => {
                 throw new Error("Description is required");
             case !price:
                 throw new Error("Price is required");
+            case !stock:
+                throw new Error("Stock is required");
             case !category:
                 throw new Error("Category is required");
             case !quantity:
@@ -205,15 +210,16 @@ const updateProduct = asyncHandler(async (req, res) => {
         }
 
         const newProduct = await Product.findByIdAndUpdate(
-            { _id: requestedProductId },
+            requestedProductId,
             {   
                 ...req.fields,
                 price: Number(price),
                 quantity: Number(quantity),
+                stock: Number(stock)
             },
             { new: true }
         )
-        await newProduct.save();
+        await newProduct.save();    
         return res.json(newProduct);
     } catch (error) {
         throw new Error(error.message);

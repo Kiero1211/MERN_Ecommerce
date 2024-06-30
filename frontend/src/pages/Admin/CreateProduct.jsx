@@ -38,13 +38,10 @@ function CreateProduct() {
 	])
 
 	const handleUploadFile = async (e) => {
-		console.log("In handle upload");
 		const formData = new FormData();
 		formData.append("image", e.target.files[0]);
-		console.log(formData);
 		try {
 			const res = await uploadProductImageApiCall(formData);
-			console.log(res);
 			toast.success(res.message);
 			setImage(res.data.image);
 			setImageUrl(res.data.image);
@@ -65,10 +62,9 @@ function CreateProduct() {
 			productData.append("category", category);
 			productData.append("quantity", quantity);
 			productData.append("brand", brand);
-			productData.append("countInStock", stock);
+			productData.append("stock", stock);
 			productData.append("image", image);
 
-			console.log(productData);
 
 			const {data} = await createProductApiCall(productData);
 
