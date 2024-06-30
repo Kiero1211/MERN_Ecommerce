@@ -56,6 +56,18 @@ function AdminMenu() {
 				</NavLink>
 			</li>
 
+            {/* Product List */}
+            <li>
+                <NavLink
+                    className="list-item py-2 px-3 block mb-5 hover:bg-[#2E2D2D] rounded-sm"
+                    to="/admin/product-list"
+                    style={({isActive}) => ({
+                        color: isActive ? "greenyellow" : "white"
+                    })}>
+                    Manage Products
+                </NavLink>
+            </li>
+
             {/* User List */}
             <li>
 				<NavLink
@@ -67,6 +79,7 @@ function AdminMenu() {
 					Manage Users
 				</NavLink>
 			</li>
+
 
             {/* Order List */}
             <li>
