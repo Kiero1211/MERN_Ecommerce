@@ -4,6 +4,7 @@ import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
 import { useGetAllUsersQuery, useDeleteUserMutation, useUpdateUserMutation } from "../../redux/api/userApiSlice";
 import Message from "../../components/Message";
+import AdminMenu from "../../components/AdminMenu";
 
 function UserList() {
 	// Getting all the APIs
@@ -52,7 +53,7 @@ function UserList() {
 	const AdminModule = () => {
 		return (
 			<div className="flex flex-col md:flex-row">
-				{/* Admin menu */}
+				<AdminMenu />
 				<table className="w-full md:w-4/5 mx-auto">
 					<thead>
 						<tr>

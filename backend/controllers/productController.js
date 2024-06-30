@@ -11,7 +11,7 @@ const fetchAllProducts = asyncHandler(async (req, res) => {
         const products = await Product
             .find({})
             .populate("category")
-            .sort({createdAt: -1})
+            .sort({ createdAt: -1 })
             .limit(pageSize);
         const count = await Product.countDocuments();
 
@@ -32,16 +32,16 @@ const fetchAllProducts = asyncHandler(async (req, res) => {
 const fetchProducts = asyncHandler(async (req, res) => {
     try {
         const pageSize = 6;
-        const keyword = req.query.keyword 
-            ? {name: {$regex: req.query.keyword, $options: "i"}}
+        const keyword = req.query.keyword
+            ? { name: { $regex: req.query.keyword, $options: "i" } }
             : {};
 
-        const count = await Product.countDocuments({...keyword});
+        const count = await Product.countDocuments({ ...keyword });
         const products = await Product
-            .find({...keyword})
+            .find({ ...keyword })
             .populate("category")
             .limit(pageSize);
-        
+
         return res.status(200).json({
             products,
             page: 1,
@@ -78,7 +78,7 @@ const fetchTopProducts = asyncHandler(async (req, res) => {
         const limitNumber = 4;
         const products = await Product
             .find()
-            .sort({createdAt: -1, rating: -1})
+            .sort({ createdAt: -1, rating: -1 })
             .limit(limitNumber)
 
         return res.status(200).json(products);
@@ -95,7 +95,7 @@ const fetchNewProducts = asyncHandler(async (req, res) => {
         const limitNumber = 5;
         const products = await Product
             .find()
-            .sort({createdAt: -1})
+            .sort({ createdAt: -1 })
             .limit(limitNumber)
 
         return res.status(200).json(products);
@@ -110,8 +110,10 @@ const fetchNewProducts = asyncHandler(async (req, res) => {
     POST /api/products/create
 */
 const createProduct = asyncHandler(async (req, res) => {
+    console.log("In create product");
     try {
         const { name, description, price, category, quantity, brand } = req.fields;
+        console.log(req.fields);
         // Server-side validation
         switch (true) {
             case !name:
@@ -129,7 +131,11 @@ const createProduct = asyncHandler(async (req, res) => {
             default:
         }
 
-        const newProduct = new Product({ ...req.fields });
+        const newProduct = new Product({
+            ...req.fields,
+            price: Number(price),
+            quantity: Number(quantity),
+        });
         await newProduct.save();
         return res.json(newProduct);
     } catch (error) {
@@ -140,11 +146,11 @@ const createProduct = asyncHandler(async (req, res) => {
 /*
     POST /api/products/:id/reviews/create
 */
-const createProductReview = asyncHandler( async(req, res) => {
+const createProductReview = asyncHandler(async (req, res) => {
     try {
-        const {rating, comment} = req.body;
+        const { rating, comment } = req.body;
         const product = await Product.findById(req.params.id);
-        
+
         const isAlreadyReviewed = product.reviews.find(review => {
             return review.user.toString() === req.user._id.toString();
         })
@@ -168,7 +174,7 @@ const createProductReview = asyncHandler( async(req, res) => {
         product.rating = Math.round((product.reviews.reduce((acc, review) => review.rating + acc, 0) / product.numReviews) * 100) / 100;
         await product.save();
 
-        return res.status(200).json({message: "Review added sucessfully"});
+        return res.status(200).json({ message: "Review added sucessfully" });
     } catch (error) {
         throw new Error(error.message);
     }
@@ -202,7 +208,11 @@ const updateProduct = asyncHandler(async (req, res) => {
 
         const newProduct = await Product.findByIdAndUpdate(
             { _id: requestedProductId },
-            { ...req.fields },
+            {   
+                ...req.fields,
+                price: Number(price),
+                quantity: Number(quantity),
+            },
             { new: true }
         )
         await newProduct.save();
