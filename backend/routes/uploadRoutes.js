@@ -15,8 +15,8 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = (req, file, cb) => {
-    const filetypes = /jpeg?g|png|webp/;
-    const mimetypes = /image\/jpe?g|img\/png|image\/webp/;
+    const filetypes = /jp(e?)g|png|webp/;
+    const mimetypes = /image\/jp(e?)g|image\/png|image\/webp/;
 
     const extname = path.extname(file.originalname).toLowerCase();
     const mimetype = file.mimetype;
@@ -38,7 +38,7 @@ router.post("/", (req, res) => {
         } else if (req.file) {
             res.status(200).send({
                 message: "Image uploaded successfully",
-                image: `${req.file.path}`
+                image: `/${req.file.path}`
             }) 
         } else {
             res.status(400).send({message: "No image file provided"});
