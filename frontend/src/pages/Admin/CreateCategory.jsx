@@ -2,7 +2,6 @@ import { useState, useCallback } from "react";
 import { toast } from "react-toastify";
 import {
 	useFetchCategoriesQuery,
-	useReadCategoryQuery,
 	useCreateCategoryMutation,
 	useDeleteCategoryMutation,
 	useUpdateCategoryMutation,
@@ -14,7 +13,7 @@ import CategoryForm from "../../components/CategoryForm";
 import Modal from "../../components/Modal";
 import AdminMenu from "../../components/AdminMenu";
 
-function CategoryList() {
+function CreateCategory() {
 	const { data: categories, isLoading } = useFetchCategoriesQuery();
 	const [name, setName] = useState("");
 	const [selectedCategory, setSelectedCategory] = useState(null);
@@ -149,4 +148,4 @@ function CategoryList() {
 	);
 }
 
-export default CategoryList;
+export default CreateCategory;

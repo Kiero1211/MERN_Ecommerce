@@ -110,10 +110,8 @@ const fetchNewProducts = asyncHandler(async (req, res) => {
     POST /api/products/create
 */
 const createProduct = asyncHandler(async (req, res) => {
-    console.log("In create product");
     try {
         const { name, description, price, category, quantity, brand } = req.fields;
-        console.log(req.fields);
         // Server-side validation
         switch (true) {
             case !name:

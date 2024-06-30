@@ -20,9 +20,11 @@ import Profile from "./pages/User/Profile.jsx";
 
 //Admin
 import UserList from "./pages/Admin/UserList.jsx";
-import CategoryList from "./pages/Admin/CategoryList.jsx";
 import ProductList from "./pages/Admin/ProductList.jsx";
+import CreateCategory from "./pages/Admin/CreateCategory.jsx";
+import CreateProduct from "./pages/Admin/CreateProduct.jsx";
 import ProductUpdate from "./pages/Admin/ProductUpdate.jsx";
+
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -37,9 +39,11 @@ const router = createBrowserRouter(
 			{/* Admin */}
 			<Route path="/admin" element={<AdminRoutes />}>
 				<Route path="user-list" element={<UserList />}/>
-				<Route path="create-category" element={<CategoryList />}/>
+				<Route path="product-list" element={<ProductList />}/>
+
+				<Route path="create-category" element={<CreateCategory />}/>
 				<Route path="create-product"> 
-					<Route index element={<ProductList />}/>
+					<Route index element={<CreateProduct />}/>
 					<Route path="update/:id" element={<ProductUpdate/>}/>
 				</Route>
 			</Route>
