@@ -30,7 +30,7 @@ function UserList() {
 			setEditableUserId(null);
 			refetch();
 		} catch (error) {
-			toast.error(error?.data.message || error.message)
+			toast.error(error?.data?.message || error.message)
 		}
 	};
 
@@ -45,7 +45,7 @@ function UserList() {
 			try {
 				await deleteUserApiCall(userId);
 			} catch (error) {
-				toast.error(error?.data.message || error.message)
+				toast.error(error?.data?.message || error.message)
 			}
 		}
 	}
@@ -159,7 +159,7 @@ function UserList() {
 			{isLoading ? (
 				<Loader />
 			) : error ? (
-				<Message variant="error">{error?.data.message || error.message}</Message>
+				<Message variant="error">{error?.data?.message || error.message}</Message>
 			) : (
 				<AdminModule />
 			)}

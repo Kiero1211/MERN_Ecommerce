@@ -17,6 +17,7 @@ import Register from "./pages/Auth/Register.jsx";
 
 //User
 import Profile from "./pages/User/Profile.jsx";
+import Home from "./Home.jsx";
 
 //Admin
 import UserList from "./pages/Admin/UserList.jsx";
@@ -29,12 +30,16 @@ import ProductUpdate from "./pages/Admin/ProductUpdate.jsx";
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route path="/" element={<App />}>
+			{/* Public */}
+			<Route index element={<Home />}/>
+			<Route path="/login" element={<Login />}/>	
+			<Route path="/register" element={<Register />}/>	
+
+			{/* Private */}
 			<Route element={<PrivateRoute/>}>
 				<Route path="/profile" element={<Profile />}/>
 			</Route>
 
-			<Route path="/login" element={<Login />}/>	
-			<Route path="/register" element={<Register />}/>	
 
 			{/* Admin */}
 			<Route path="/admin" element={<AdminRoutes />}>

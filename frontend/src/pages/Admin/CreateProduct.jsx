@@ -72,7 +72,7 @@ function CreateProduct() {
 				toast.error("Failed to create product, please re-check your information");
 			} else {
 				toast.success(`${data.name} is created`);
-				navigate("/");
+				navigate("/admin/product-list");
 			}
 		} catch (error) {
 			console.log(error.message);
