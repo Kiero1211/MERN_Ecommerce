@@ -18,13 +18,11 @@ function Header() {
 
     return (
         <>
-            <div className="grid xl:grid-cols-2 xl:justify-around justify-center items-center">
-                <div className="xl:block hidden">
-                    <div className="grid grid-cols-2">
+            <div className="grid 2xl:grid-cols-2 grid-cols-1 justify-center items-center">
+                <div className="2xl:block hidden">
+                    <div className="grid grid-cols-2 justify-center">
                         {products.map((product, index) => (
-                            <div key={index}>
-                                <ProductCard product={product}/>
-                            </div>
+                                <ProductCard key={index} product={product}/>
                         ))}
                     </div>
                 </div>

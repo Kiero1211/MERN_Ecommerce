@@ -53,7 +53,7 @@ function ProductCarousel() {
 	return (
 		<Slider
 			{...carouselSettings}
-			className="lg:w-[50rem] md:w-[56rem] sm:w-[40rem] sm:block">
+			className="w-[90%] ml-[7.5rem]">
 			{products.map((product, index) => {
 				const {
 					image,
@@ -74,7 +74,7 @@ function ProductCarousel() {
                         <img src={image} alt={name} className="w-full rounded-lg object-cover "/>
 						<div className="flex justify-around p-3">
 							<div className="one">
-								<h2>{name}</h2>
+								<h2 className="text-lg font-semibold">{name}</h2>
 								<p>$ {price}</p> <br/> <br />
 								<p className="w-[25rem]">
 									{description.substring(0, 160)}...
@@ -82,38 +82,38 @@ function ProductCarousel() {
 							</div>
 
 							<div className="two">
-								<h1 className="flex items-center mb-6 w-full">
+								<h2 className="flex items-center mb-6 w-full">
 									<FaStore size={26} className="mr-2 text-white" /> 
 									<span>Brand: {brand}</span>
-								</h1>
-								<h1 className="flex items-center mb-6 w-full">
+								</h2>
+								<h2 className="flex items-center mb-6 w-full">
 									<FaClock size={26} className="mr-2 text-white" /> 
 									<span>
 										Added:{" "}{moment(createdAt).fromNow()}
 									</span>
 									
-								</h1>
-								<h1 className="flex items-center mb-6 w-full">
+								</h2>
+								<h2 className="flex items-center mb-6 w-full">
 									<FaStar size={26} className="mr-2 text-white" /> 
 									<span>
 										Reviews: {numReviews}
 									</span>
-								</h1>
+								</h2>
 							</div>
 
 							<div className="three">
-								<h1 className="flex items-center mb-6">
+								<h2 className="flex items-center mb-6">
 									<FaStar size={26} className="mr-2 text-white"/>
 									<span>Rating: {rating}</span>
-								</h1>
-								<h1 className="flex items-center mb-6">
+								</h2>
+								<h2 className="flex items-center mb-6">
 									<FaShoppingCart size={26} className="mr-2 text-white"/>
 									<span>Quantity: {quantity}</span>
-								</h1>
-								<h1 className="flex items-center mb-6">
+								</h2>
+								<h2 className="flex items-center mb-6">
 									<FaBox size={26} className="mr-2 text-white"/>
 									<span>In stock: {stock}</span>
-								</h1>
+								</h2>
 							</div>
 						</div>
                     </div>

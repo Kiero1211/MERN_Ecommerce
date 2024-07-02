@@ -8,7 +8,7 @@ function App() {
 		<>
 			<ToastContainer />
 			<Navigation />
-			<main className="w-[90%] ml-auto mr-auto">
+			<main className="	">
 				<Outlet />
 			</main>
 		</>
