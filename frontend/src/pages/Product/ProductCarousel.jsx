@@ -23,7 +23,6 @@ function ProductCarousel() {
 		isLoading,
 		error,
 	} = useFetchTopProductsQuery();
-	console.log(products);
 	const carouselSettings = {
 		dots: false,
 		infinite: true,
@@ -68,7 +67,6 @@ function ProductCarousel() {
 					quantity,
 					stock,
 				} = product;
-				console.log(product);
                 return (
                     <div key={index} className="p-3">
                         <img src={image} alt={name} className="w-full rounded-lg object-cover "/>

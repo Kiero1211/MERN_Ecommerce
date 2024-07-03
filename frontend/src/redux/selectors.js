@@ -13,3 +13,10 @@ export const isAdminSelector = createSelector(
         return state.auth.userInfo.isAdmin || false
     }
 )
+
+export const favoriteProductSelector = createSelector(
+    [(state) => state],
+    (state) => {
+        return state.favorites
+    }
+)

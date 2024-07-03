@@ -16,6 +16,7 @@ import { useLogoutMutation } from "../../redux/api/userApiSlice";
 import { logout } from "../../redux/features/auth/authSlice";
 
 import { userInfoSelector } from "../../redux/selectors";
+import FavoritesCount from "../Product/FavoritesCount";
 
 const Navigation = () => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -120,6 +121,7 @@ const Navigation = () => {
 						size={26}
 					/>
 					<span className="hidden nav-item-name mt-[3rem]">FAVORITE</span>
+					{" "} <FavoritesCount />
 				</Link>
 			</div>
 
