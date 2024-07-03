@@ -38,7 +38,7 @@ function HeartIcon({product}) {
     }
 
 	return (
-        <div onClick={toggleFavorites} className="absolute p-4  top-2 right-5 cursor-pointer">
+        <div onClick={toggleFavorites} className="absolute p-3 top-2 right-5 cursor-pointer">
             {isFavoriteProduct ? (
                 <FaHeart size={26} className="text-pink-500"/>
             ) : (

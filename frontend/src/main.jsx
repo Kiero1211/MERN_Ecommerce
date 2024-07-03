@@ -14,10 +14,11 @@ import AdminRoutes from "./pages/Admin/AdminRoutes.jsx";
 // Auth
 import Login from "./pages/Auth/Login.jsx";
 import Register from "./pages/Auth/Register.jsx";
-
-//User
 import Profile from "./pages/User/Profile.jsx";
+
+//Public
 import Home from "./Home.jsx";
+import Favorite from "./pages/Product/Favorite.jsx";
 
 //Admin
 import UserList from "./pages/Admin/UserList.jsx";
@@ -34,6 +35,7 @@ const router = createBrowserRouter(
 			<Route index element={<Home />}/>
 			<Route path="/login" element={<Login />}/>	
 			<Route path="/register" element={<Register />}/>	
+			<Route path="/favorite" element={<Favorite />}/>
 
 			{/* Private */}
 			<Route element={<PrivateRoute/>}>
