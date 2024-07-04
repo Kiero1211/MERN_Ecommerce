@@ -4,8 +4,8 @@ import HeartIcon from "./HeartIcon";
 
 function SingleProduct({details}) {
  return (
-    <Link to={`product/${details._id}`} className="w-[30rem] p-3 relative">
-        <div className="relative h-[30rem]">
+    <Link to={`/product/${details._id}`} className="p-3 relative">
+        <div className="relative h-[26rem]">
             <img src={details.image} alt={details.name} className="block w-full h-[100%] object-cover rounded-lg" />
             <HeartIcon product={details} />
         </div>

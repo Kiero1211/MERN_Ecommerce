@@ -37,7 +37,7 @@ function Home() {
 						</Link>
 
 					</div>
-					<div className="flex justify-center flex-wrap mt-[2rem] gap-10">
+					<div className="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 grid-cols 1 justify-center mt-[2rem] gap-10">
 						{data?.products?.map((product, index) => {
 							return <SingleProduct key={index} details={product} />
 						})}

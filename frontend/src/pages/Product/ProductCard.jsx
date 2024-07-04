@@ -4,14 +4,16 @@ import HeartIcon from "./HeartIcon";
 
 function ProductCard({ product }) {
 	return (
-		<div className="ml-[2rem] p-3">
+		<div className="p-3">
 			<div className="relative">
-				<img
-					src={product.image}
-					alt={product.name}
-					className="h-auto rounded"
-				/>
-				<HeartIcon product={product}/>
+				<div className="relative h-[30rem]">
+					<img
+						src={product.image}
+						alt={product.name}
+						className="h-full object-cover rounded"
+					/>
+					<HeartIcon product={product}/>
+				</div>
 
 				<div className="p-2">
 					<Link to={`/product/${product._id}`}>

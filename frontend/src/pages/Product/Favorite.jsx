@@ -6,11 +6,11 @@ function Favorite() {
     const favorites = useSelector(favoriteProductSelector);
 
     return (
-        <div className="ml-[13rem]">
+        <div className="ml-[rem]">
             <h1 className="text-lg font-bold ml-[3rem] pt-[3rem]">
                 FAVORITE PRODUCTS
             </h1>
-            <div className="flex flex-wrap">
+            <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 justify-center gap-10">
                 {favorites.map((product, index) => {
                     return <SingleProduct key={index} details={product} />
                 })}
