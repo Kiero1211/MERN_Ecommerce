@@ -15,6 +15,7 @@ import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import HeartIcon from "./HeartIcon";
 import ProductRatings from "./ProductRatings";
+import ProductsTab from "./ProductsTab";
 import {
 	FaBox,
 	FaClock,
@@ -25,17 +26,40 @@ import {
 import moment from "moment";
 
 function ProductDetail() {
+    console.log("re-render parent");
     const {id: productId} = useParams();
 
     const [quantity, setQuantity] = useState(1);
     const [rating, setRating] = useState(0);
-    const [review, setReview] = useState("");
+    const [comment, setComment] = useState("");
 
     const {data: product, isLoading, refetch, error} = useFetchProductByIdQuery(productId);
 
     const userInfo = useSelector(userInfoSelector);
 
     const [createReviewApiCall, {isLoading: loadingProductReview}] = useCreateProductReviewMutation();
+
+    const handleAddToCart = (e) => {
+        e.preventDefault();
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            await createReviewApiCall({productId, reviewData: {
+                rating,
+                comment
+            }}).unwrap();
+
+            refetch();
+            toast.success("Review created successfully")
+        } catch (error) {
+            console.log(error);
+            toast.error(`Failed to create review: ${error?.data?.message || error.message}`)
+        }
+    }
+
 
 	return (
 		<div className="ml-[8rem]">
@@ -115,6 +139,30 @@ function ProductDetail() {
                                     </div>
                                 )}
                             </div>
+                            
+                            {/* Add to cart */}
+                            <div className="btn-container mt-3">
+                                <button
+                                    onClick={handleAddToCart}
+                                    disabled={product.stock === 0}
+                                    className="bg-pink-600 hover:bg-pink-700 text-white py-2 px-4 rounded-lg mt-4 md:mt-0"
+                                >
+                                    Add To Cart
+                                </button>
+                            </div>
+                        </div>
+                        {/* Products Tab */}
+                        <div className="mt-[5rem] container flex flex-wrap items-start justify-between ml-[10rem]">
+                            <ProductsTab 
+                                loadingProductReview={loadingProductReview}
+                                userInfo={userInfo}
+                                onSubmit={handleSubmit}
+                                rating={rating}
+                                setRating={setRating}
+                                comment={comment}
+                                setComment={setComment}
+                                product={product}
+                            />
                         </div>
                     </div>
 

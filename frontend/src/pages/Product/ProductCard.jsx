@@ -4,9 +4,9 @@ import HeartIcon from "./HeartIcon";
 
 function ProductCard({ product }) {
 	return (
-		<div className="p-3">
+		<div className="w-[20rem] ml-[2rem] p-3">
 			<div className="relative">
-				<div className="relative h-[30rem]">
+				<div className="relative">
 					<img
 						src={product.image}
 						alt={product.name}
