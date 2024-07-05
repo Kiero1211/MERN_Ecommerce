@@ -5,7 +5,7 @@ import uploadRoutes from "./uploadRoutes.js";
 import { authorize, authorizeAdmin } from "../middlewares/authMiddleware.js";
 import { checkId } from "../middlewares/checkId.js";
 
-import { 
+import {
     fetchProducts,
     fetchAllProducts,
     fetchTopProducts,
@@ -14,7 +14,7 @@ import {
     createProduct,
     updateProduct,
     deleteProduct,
-    
+    filterProducts,
     createProductReview
 } from "../controllers/productController.js";
 
@@ -30,8 +30,10 @@ router.route("/create").post(authorize, formidable(), createProduct);
 router.route("/top").get(fetchTopProducts);
 router.route("/new").get(fetchNewProducts);
 
+router.route("/filter").post(filterProducts);
+
 router.route("/:id")
-    .get(checkId,readProduct)
+    .get(checkId, readProduct)
     .put(authorize, authorizeAdmin, checkId, formidable(), updateProduct)
     .delete(authorize, authorizeAdmin, checkId, deleteProduct);
 

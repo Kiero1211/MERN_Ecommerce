@@ -73,6 +73,16 @@ export const productApiSlice = apiSlice.injectEndpoints({
             providesTags: ["Product"]
         }),
 
+        fetchFilteredProducts: builder.query({
+            query: (filterObject) => ({
+                url: `${PRODUCT_URL}/filter`,
+                method: "POST",
+                body: filterObject
+            }),
+            keepUnusedDataFor: 5,
+            providesTags: ["Product"]
+        }),
+
         uploadProductImage: builder.mutation({
             query: (data) => ({
                 url: `${UPLOAD_URL}`,
@@ -90,6 +100,7 @@ export const {
     useFetchProductsQuery,
     useFetchTopProductsQuery,
     useFetchNewProductsQuery,
+    useFetchFilteredProductsQuery,
 
     useCreateProductMutation,
     useUpdateProductMutation,

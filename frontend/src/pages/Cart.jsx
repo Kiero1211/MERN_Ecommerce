@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { cartSelector } from "../../redux/selectors";
+import { cartSelector } from "../redux/selectors";
 import {FaTrash} from "react-icons/fa";
-import { addToCart, removeFromCart } from "../../redux/features/cart/cartSlice";
+import { addToCart, removeFromCart } from "../redux/features/cart/cartSlice";
 
 function Cart() {
     const dispatch = useDispatch();

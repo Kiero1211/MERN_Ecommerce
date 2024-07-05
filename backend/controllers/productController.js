@@ -181,6 +181,28 @@ const createProductReview = asyncHandler(async (req, res) => {
     }
 });
 
+const filterProducts = asyncHandler(async (req, res) => {
+    try {
+        const {checked, radios} = req.body;
+
+        const filterObject = {}
+
+        if (checked.length > 0) {
+            filterObject.category = {$in: checked}
+        }
+
+        if (radios.length > 0) {
+            filterObject.price = {$gte: radios[0], $lte: radios[1]}
+        }
+
+        const products = await Product.find(filterObject);
+        res.status(200).json(products);
+
+    } catch (error) {
+        console.error(error);
+    }
+})
+
 
 // ------- PUT ---------
 /*
@@ -211,7 +233,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 
         const newProduct = await Product.findByIdAndUpdate(
             requestedProductId,
-            {   
+            {
                 ...req.fields,
                 price: Number(price),
                 quantity: Number(quantity),
@@ -219,7 +241,7 @@ const updateProduct = asyncHandler(async (req, res) => {
             },
             { new: true }
         )
-        await newProduct.save();    
+        await newProduct.save();
         return res.json(newProduct);
     } catch (error) {
         throw new Error(error.message);
@@ -256,7 +278,7 @@ export {
     createProduct,
     updateProduct,
     deleteProduct,
-
+    filterProducts,
     // Reviews
     createProductReview,
 
