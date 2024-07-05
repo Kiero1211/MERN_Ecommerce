@@ -27,3 +27,12 @@ export const cartSelector = createSelector(
         return state.cart
     }
 )
+
+export const cartItemsSelector = createSelector(
+    [(state) => state],
+    (state) => {
+        const cartItems = state.cart.cartItems;
+        const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+        return totalQuantity;
+    } 
+)

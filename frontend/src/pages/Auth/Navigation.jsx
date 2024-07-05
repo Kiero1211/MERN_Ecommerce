@@ -15,8 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLogoutMutation } from "../../redux/api/userApiSlice";
 import { logout } from "../../redux/features/auth/authSlice";
 
-import { userInfoSelector } from "../../redux/selectors";
-import FavoritesCount from "../Product/FavoritesCount";
+import { userInfoSelector, favoriteProductSelector, cartItemsSelector } from "../../redux/selectors";
+import CountBubble from "../../components/CountBubble";
 
 const Navigation = () => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -24,6 +24,9 @@ const Navigation = () => {
 	const dispatch = useDispatch();
 	const userInfo = useSelector(userInfoSelector);
 	const navigate = useNavigate();
+
+	const favoriteProductCount = useSelector(favoriteProductSelector).length;
+	const cartItemsCount = useSelector(cartItemsSelector);
 
 	const [logoutApiCall] = useLogoutMutation();
 
@@ -112,6 +115,7 @@ const Navigation = () => {
 						size={26}
 					/>
 					<span className="hidden nav-item-name mt-[3rem]">CART</span>
+					{" "} {cartItemsCount > 0 && <CountBubble value={cartItemsCount}/>}
 				</Link>
 				<Link
 					to="/favorite"
@@ -121,7 +125,7 @@ const Navigation = () => {
 						size={26}
 					/>
 					<span className="hidden nav-item-name mt-[3rem]">FAVORITE</span>
-					{" "} <FavoritesCount />
+					{" "} {favoriteProductCount > 0 && <CountBubble value={favoriteProductCount} />}
 				</Link>
 			</div>
 
