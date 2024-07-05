@@ -7,6 +7,7 @@ export const updateCartPrices = (state) => {
         state.cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0)
     )
     state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 10);
+
     state.taxPrice = addDecimals(0.15 * state.itemsPrice);
 
     state.totalPrice = addDecimals(
@@ -15,6 +16,5 @@ export const updateCartPrices = (state) => {
 
     console.log(state.itemsPrice, state.shippingPrice, state.taxPrice, state.totalPrice);
 
-    localStorage.setItem("cart", state);
-    return state;
+    localStorage.setItem("cart", JSON.stringify(state));
 }

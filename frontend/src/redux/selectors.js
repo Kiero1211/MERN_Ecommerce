@@ -20,3 +20,10 @@ export const favoriteProductSelector = createSelector(
         return state.favorites
     }
 )
+
+export const cartSelector = createSelector(
+    [(state) => state],
+    (state) => {
+        return state.cart
+    }
+)

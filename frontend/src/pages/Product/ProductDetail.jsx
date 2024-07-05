@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // Redux
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
 	useFetchProductByIdQuery,
 	useCreateProductReviewMutation,
@@ -25,13 +25,17 @@ import {
 } from "react-icons/fa";
 import moment from "moment";
 
+import { addToCart } from "../../redux/features/cart/cartSlice";
+
 function ProductDetail() {
-    console.log("re-render parent");
     const {id: productId} = useParams();
 
     const [quantity, setQuantity] = useState(1);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const {data: product, isLoading, refetch, error} = useFetchProductByIdQuery(productId);
 
@@ -39,8 +43,13 @@ function ProductDetail() {
 
     const [createReviewApiCall, {isLoading: loadingProductReview}] = useCreateProductReviewMutation();
 
-    const handleAddToCart = (e) => {
-        e.preventDefault();
+    const handleAddToCart = () => {
+        try {
+            dispatch(addToCart({...product, quantity}));
+            navigate("/cart");
+        } catch (error) {
+            toast.error("Failed to add to cart: ", error?.data?.message || error.message);
+        }
     }
 
     const handleSubmit = async (e) => {
@@ -151,21 +160,20 @@ function ProductDetail() {
                                 </button>
                             </div>
                         </div>
-                        {/* Products Tab */}
-                        <div className="mt-[5rem] container flex flex-wrap items-start justify-between ml-[10rem]">
-                            <ProductsTab 
-                                loadingProductReview={loadingProductReview}
-                                userInfo={userInfo}
-                                onSubmit={handleSubmit}
-                                rating={rating}
-                                setRating={setRating}
-                                comment={comment}
-                                setComment={setComment}
-                                product={product}
-                            />
-                        </div>
                     </div>
-
+                    {/* Products Tab */}
+                    <div className="mt-[5rem] container flex flex-wrap items-start justify-between ml-[10rem]">
+                        <ProductsTab 
+                            loadingProductReview={loadingProductReview}
+                            userInfo={userInfo}
+                            onSubmit={handleSubmit}
+                            rating={rating}
+                            setRating={setRating}
+                            comment={comment}
+                            setComment={setComment}
+                            product={product}
+                        />
+                    </div>
                 </>
             )}
         </div>

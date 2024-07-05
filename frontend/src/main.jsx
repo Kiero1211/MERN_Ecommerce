@@ -20,6 +20,7 @@ import Profile from "./pages/User/Profile.jsx";
 import Home from "./pages/Home.jsx";
 import Favorite from "./pages/Product/Favorite.jsx";
 import ProductDetail from "./pages/Product/ProductDetail.jsx";
+import Cart from "./pages/Cart/Cart.jsx";
 
 //Admin
 import UserList from "./pages/Admin/UserList.jsx";
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
 			<Route path="/register" element={<Register />}/>	
 			<Route path="/favorite" element={<Favorite />}/>
 			<Route path="/product/:id" element={<ProductDetail />}/>
+			<Route path="/cart" element={<Cart/>} />
 
 			{/* Private */}
 			<Route element={<PrivateRoute/>}>

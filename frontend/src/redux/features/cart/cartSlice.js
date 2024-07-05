@@ -16,19 +16,18 @@ const cartSlice = createSlice({
         addToCart: (state, action) => {
             const {user, rating, numReviews, reviews, ...item} = action.payload;
             const existsItemIndex = state.cartItems.findIndex(cartItem => cartItem._id === item._id);
-
-            if (existsItemIndex) {
+            if (existsItemIndex !== -1) {
                 // Update cartItem according to the request data
                 state.cartItems[existsItemIndex] = item;
             } else {
                 state.cartItems.push(item);
             }
-            return updateCartPrices(state, item);
+            updateCartPrices(state, item);   
         },
 
         removeFromCart: (state, action) => {
             state.cartItems = state.cartItems.filter(cartItem => cartItem._id !== action.payload._id);
-            return updateCartPrices(state);
+            updateCartPrices(state);
         },
 
         saveShippingAddress: (state, action) => {
