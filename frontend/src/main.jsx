@@ -17,7 +17,7 @@ import Register from "./pages/Auth/Register.jsx";
 import Profile from "./pages/User/Profile.jsx";
 
 //Public
-import Home from "./Home.jsx";
+import Home from "./pages/Home.jsx";
 import Favorite from "./pages/Product/Favorite.jsx";
 import ProductDetail from "./pages/Product/ProductDetail.jsx";
 

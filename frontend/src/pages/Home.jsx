@@ -1,12 +1,12 @@
 // Redux
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useFetchProductsQuery } from "./redux/api/productApiSlice";
+import { useFetchProductsQuery } from "../redux/api/productApiSlice";
 
 // Components
-import Loader from "./components/Loader";
-import Header from "./components/Header";
-import Message from "./components/Message";
-import SingleProduct from "./pages/Product/SingleProduct";
+import Loader from "../components/Loader";
+import Header from "../components/Header";
+import Message from "../components/Message";
+import SingleProduct from "./Product/SingleProduct";
 
 function Home() {
 	const { keyword } = useParams();

@@ -1,7 +1,8 @@
+
+// ------------- Favorites ----------------
 // Add a product to localStorage
 export const addFavoriteToLocalStorage = (product) => {
     const favorites = getFavoritesFromLocalStorage();
-    console.log(favorites);
     if (!favorites.some(favoriteProduct => favoriteProduct._id === product._id)) {
         favorites.push(product);
         localStorage.setItem("favorites", JSON.stringify(favorites));
@@ -11,9 +12,7 @@ export const addFavoriteToLocalStorage = (product) => {
 // Remove a product from localStorage
 export const removesFavoriteFromLocalStorage = (productId) => {
     const favorites = getFavoritesFromLocalStorage();
-    console.log("Before: ", favorites);
     const newFavorites = favorites.filter(favoriteProduct => favoriteProduct._id !== productId);
-    console.log("After: ", newFavorites);
     localStorage.setItem("favorites", JSON.stringify(newFavorites));
 }
 
@@ -22,3 +21,5 @@ export const getFavoritesFromLocalStorage = () => {
     const favoritesJSON = localStorage.getItem("favorites");
     return favoritesJSON ? JSON.parse(favoritesJSON) : [];
 }
+
+// ---------------- Cart -----------------
