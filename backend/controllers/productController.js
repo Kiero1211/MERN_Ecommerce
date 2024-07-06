@@ -183,12 +183,12 @@ const createProductReview = asyncHandler(async (req, res) => {
 
 const filterProducts = asyncHandler(async (req, res) => {
     try {
-        const {checked, radios} = req.body;
+        const {checkboxes, radios} = req.body;
 
         const filterObject = {}
 
-        if (checked.length > 0) {
-            filterObject.category = {$in: checked}
+        if (checkboxes.length > 0) {
+            filterObject.category = {$in: checkboxes}
         }
 
         if (radios.length > 0) {

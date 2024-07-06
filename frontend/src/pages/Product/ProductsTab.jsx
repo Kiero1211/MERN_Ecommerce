@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useFetchTopProductsQuery } from "../../redux/api/productApiSlice";
 
 import ProductRatings from "./ProductRatings";
-import ProductCard from "./ProductCard";
 import Loader from "../../components/Loader";
 import SingleProduct from "./SingleProduct";
 
@@ -143,7 +142,7 @@ function ProductsTab({
                                 <Loader />
                             ) : (
                                 data.map((product, index) => {
-                                    return <ProductCard key={index} product={product}/>
+                                    return <SingleProduct key={index} details={product}/>
                                 })
                             )
                         }

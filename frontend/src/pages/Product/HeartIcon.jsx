@@ -42,7 +42,7 @@ function HeartIcon({product}) {
             {isFavoriteProduct ? (
                 <FaHeart size={26} className="text-pink-500"/>
             ) : (
-                <FaRegHeart size={26} className="text-white" />
+                <FaRegHeart size={26} className="text-pink-300" />
             )}
         </div>
     );
