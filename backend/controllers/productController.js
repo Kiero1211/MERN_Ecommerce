@@ -185,7 +185,9 @@ const filterProducts = asyncHandler(async (req, res) => {
     try {
         const {checkboxes, radios} = req.body;
 
-        const filterObject = {}
+        const filterObject = {
+            stock: {$gt: 0}
+        }
 
         if (checkboxes.length > 0) {
             filterObject.category = {$in: checkboxes}
