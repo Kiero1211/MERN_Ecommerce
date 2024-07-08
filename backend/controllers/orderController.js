@@ -31,7 +31,7 @@ const getAllOrders = asyncHandler(async (req, res) => {
 */
 const getCurrentOrder = asyncHandler(async (req, res) => {
     try {
-        const currentUserOrders = await Order.find({user: req.user._id});
+        const currentUserOrders = await Order.find({"user.id": req.user._id});
 
         res.status(200).json(currentUserOrders);
     } catch (error) {

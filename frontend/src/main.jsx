@@ -13,6 +13,7 @@ import AdminRoutes from "./pages/Admin/AdminRoutes.jsx";
 import Shipping from "./pages/Order/Shipping.jsx";
 import PlaceOrder from "./pages/Order/PlaceOrder.jsx";
 import Order from "./pages/Order/Order.jsx";
+import UserOrder from "./pages/User/UserOrder.jsx";
 
 // Auth
 import Login from "./pages/Auth/Login.jsx";
@@ -32,6 +33,7 @@ import ProductList from "./pages/Admin/ProductList.jsx";
 import CreateCategory from "./pages/Admin/CreateCategory.jsx";
 import CreateProduct from "./pages/Admin/CreateProduct.jsx";
 import ProductUpdate from "./pages/Admin/ProductUpdate.jsx";
+import OrderList from "./pages/Admin/OrderList.jsx";
 
 
 const router = createBrowserRouter(
@@ -51,6 +53,7 @@ const router = createBrowserRouter(
 				<Route path="/profile" element={<Profile />}/>
 				<Route path="/shipping" element={<Shipping />}/>
 				<Route path="/place-order" element={<PlaceOrder />}/>
+				<Route path="/order/current" element={<UserOrder />}/>
 				<Route path="/order/:id" element={<Order />}/>
 			</Route>
 
@@ -59,6 +62,7 @@ const router = createBrowserRouter(
 			<Route path="/admin" element={<AdminRoutes />}>
 				<Route path="user-list" element={<UserList />}/>
 				<Route path="product-list" element={<ProductList />}/>
+				<Route path="order-list" element={<OrderList />}/>
 
 				<Route path="create-category" element={<CreateCategory />}/>
 				<Route path="create-product"> 

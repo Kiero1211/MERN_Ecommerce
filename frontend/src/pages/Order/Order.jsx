@@ -51,6 +51,11 @@ function Order() {
         }
     }
 
+    const handleDeliver = async () => {
+        await deliverOrderApiCall(orderId);
+        refetch();
+    }
+
     return (
         <div className="container flex flex-col ml-[10rem] md:flex-row">
             <div className="md:w-2/3 pr-4">
@@ -99,9 +104,6 @@ function Order() {
                         </p>
                         <p className="my-4">
                             <strong className="text-pink-500">Name: </strong> {order.user.username}
-                        </p>
-                        <p className="my-4">
-                            <strong className="text-pink-500">Email: </strong> {order.user.email}
                         </p>
                         <p className="my-4">
                             <strong className="text-pink-500">Email: </strong> {order.user.email}
@@ -164,6 +166,18 @@ function Order() {
                         </div>
                         )
                     }
+
+                    {loadingDeliver && <Loader />}
+                    {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                        <>
+                            <button 
+                                type="button"
+                                className="bg-pink-500 text-white py-2 px-4 rounded-full text-lg w-full mt-4"
+                                onClick={handleDeliver}>
+                                    Mark As Delivered
+                            </button> 
+                        </>
+                    )}
             </div>
         </div>
     )
