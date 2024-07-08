@@ -10,6 +10,9 @@ import store from "./redux/store.js";
 // Private Route
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import AdminRoutes from "./pages/Admin/AdminRoutes.jsx";
+import Shipping from "./pages/Order/Shipping.jsx";
+import PlaceOrder from "./pages/Order/PlaceOrder.jsx";
+import Order from "./pages/Order/Order.jsx";
 
 // Auth
 import Login from "./pages/Auth/Login.jsx";
@@ -46,6 +49,9 @@ const router = createBrowserRouter(
 			{/* Private */}
 			<Route element={<PrivateRoute/>}>
 				<Route path="/profile" element={<Profile />}/>
+				<Route path="/shipping" element={<Shipping />}/>
+				<Route path="/place-order" element={<PlaceOrder />}/>
+				<Route path="/order/:id" element={<Order />}/>
 			</Route>
 
 

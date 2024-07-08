@@ -1,5 +1,6 @@
 import Order from "../models/Order.js";
 import Product from "../models/Product.js";
+import User from "../models/User.js";
 
 import asyncHandler from "../middlewares/asyncHandler.js";
 import calculateOrderPrice from "../utils/calculateOrderPrice.js";
@@ -126,6 +127,7 @@ const createOrder = asyncHandler(async (req, res) => {
         // Iterate through the order array and construct new order array
         let resultItems = [];
         orderItems.forEach(async (item) => {
+            console.log(item);
             const matchingItemFromDB = allItems.find(dbItem => dbItem._id.toString() === item._id.toString());
 
             if (!matchingItemFromDB) {
@@ -141,8 +143,13 @@ const createOrder = asyncHandler(async (req, res) => {
             })
         })
         const {itemsPrice, shippingPrice, taxPrice, totalPrice} = calculateOrderPrice(resultItems)
+        
         const order = new Order({
-            user: req.user._id,
+            user: {
+                id: req.user._id,
+                username: req.user.username,
+                email: req.user.email
+            },
             orderItems: resultItems,
             shippingAddress,
             paymentMethod,
@@ -151,7 +158,6 @@ const createOrder = asyncHandler(async (req, res) => {
             taxPrice,
             totalPrice
         })
-
         await order.save();
         res.status(200).json(order);
 
