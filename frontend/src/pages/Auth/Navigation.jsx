@@ -200,6 +200,13 @@ const Navigation = () => {
 						)}
 						<li>
 							<Link
+								to="/order/current"
+								className="block w-[100%] text-left px-4 py-2 hover:bg-gray-100">
+								My Orders
+							</Link>
+						</li>
+						<li>
+							<Link
 								to="/profile"
 								className="block w-[100%] text-left px-4 py-2 hover:bg-gray-100">
 								Profile

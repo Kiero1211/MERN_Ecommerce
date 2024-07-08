@@ -143,7 +143,7 @@ function Shipping() {
                                 value="Paypal"
                                 checked={paymentMethod === "Paypal"} 
                                 onChange={(e) => setPaymentMethod(e.target.value)}/>
-                                Paypal or Credit Card
+                                Stripe or Credit Card
                             </label>
                         </div>
                     </div>

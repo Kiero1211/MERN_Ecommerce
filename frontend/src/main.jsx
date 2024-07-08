@@ -34,6 +34,7 @@ import CreateCategory from "./pages/Admin/CreateCategory.jsx";
 import CreateProduct from "./pages/Admin/CreateProduct.jsx";
 import ProductUpdate from "./pages/Admin/ProductUpdate.jsx";
 import OrderList from "./pages/Admin/OrderList.jsx";
+import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
 
 
 const router = createBrowserRouter(
@@ -63,6 +64,8 @@ const router = createBrowserRouter(
 				<Route path="user-list" element={<UserList />}/>
 				<Route path="product-list" element={<ProductList />}/>
 				<Route path="order-list" element={<OrderList />}/>
+				<Route path="dashboard" element={<AdminDashboard />}/>
+
 
 				<Route path="create-category" element={<CreateCategory />}/>
 				<Route path="create-product"> 
