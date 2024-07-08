@@ -69,6 +69,18 @@ const orderSlice = apiSlice.injectEndpoints({
             providesTags: ["Order"],
             keepUnusedDataFor: 5
         }),
+
+        fetchStripeKey: builder.query({
+            query: (orderId) => `${ORDER_URL}/${orderId}/checkout/key`,
+        }),
+
+        createStripePayment: builder.mutation({
+            query: ({orderId, ...data}) => ({
+                url: `${ORDER_URL}/${orderId}/checkout`,
+                method: "POST",
+                body: data
+            })
+        })
     })
 })
 
@@ -84,5 +96,7 @@ export const {
     useGetPaypalClientIdQuery,
 
     usePayOrderMutation,
-    useDeliverOrderMutation
+    useDeliverOrderMutation,
+    useCreateStripePaymentMutation,
+    useFetchStripeKeyQuery
 } = orderSlice;

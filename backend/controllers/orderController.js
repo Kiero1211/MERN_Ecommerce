@@ -2,6 +2,13 @@ import Order from "../models/Order.js";
 import Product from "../models/Product.js";
 import User from "../models/User.js";
 
+import dotenv from "dotenv";
+dotenv.config();
+
+import Stripe from "stripe";
+const stripe = Stripe(process.env.STRIPE_SECRET);
+
+
 import asyncHandler from "../middlewares/asyncHandler.js";
 import calculateOrderPrice from "../utils/calculateOrderPrice.js";
 
@@ -110,6 +117,18 @@ const getOrderById = asyncHandler(async (req, res) => {
     }
 })
 
+const getStripeKey = asyncHandler(async (req, res) => {
+    res.json({key: process.env.REACT_APP_STRIPE_KEY});
+})
+
+const orderPaymentSuccess = asyncHandler(async (req, res) => {
+    res.status(200).send("Success");
+})
+
+const orderPaymentError = asyncHandler(async (req, res) => {
+    res.status(500).send("Error");
+})
+
 // ----------- POST ------------
 /*
     POST /api/orders/create
@@ -127,7 +146,6 @@ const createOrder = asyncHandler(async (req, res) => {
         // Iterate through the order array and construct new order array
         let resultItems = [];
         orderItems.forEach(async (item) => {
-            console.log(item);
             const matchingItemFromDB = allItems.find(dbItem => dbItem._id.toString() === item._id.toString());
 
             if (!matchingItemFromDB) {
@@ -166,11 +184,68 @@ const createOrder = asyncHandler(async (req, res) => {
     }
 });
 
+/*
+    POST /api/orders/:id/checkout
+*/
+const checkOutOrder = asyncHandler(async (req, res) => {
+    console.log("In checkoutOrder");
+    try {
+        const requestedOrderId = req.params.id;
+
+        const {products, shippingPrice, taxPrice} = req.body;
+        const line_items = products.map(product => ({
+            price_data: {
+                currency: "usd",
+                product_data: {
+                    name: product.name,
+                },
+                unit_amount: Math.round(product.price * 100)
+            },
+            quantity: product.quantity
+        }))
+
+        line_items.push({
+            price_data: {
+                currency: "usd",
+                product_data: {
+                    name: "Shipping",
+                },
+                unit_amount: Math.round(shippingPrice * 100)
+            },
+            quantity: 1
+        })
+
+        line_items.push({
+            price_data: {
+                currency: "usd",
+                product_data: {
+                    name: "Tax",
+                },
+                unit_amount: Math.round(taxPrice * 100)
+            },
+            quantity: 1
+        })
+    
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ["card"],
+            line_items,
+            mode: "payment",
+            success_url: `http://localhost:5173/order/${requestedOrderId}`,
+            cancel_url: `http://localhost:5173/order/${requestedOrderId}`,
+        })
+        
+        res.json({id: session.id});
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+});
 // ---------- PUT ------------
 /*
     PUT /api/orders/:id/pay
 */
-const markOrderAsPaid = asyncHandler(async (req, res) => {
+const markOrderAsPaid = asyncHandler(async (req, res, next) => {
+    console.log("Marking as paid");
     try {
         const orderId = req.params.id;
         const requestedOrder = await Order.findById(orderId);
@@ -186,11 +261,12 @@ const markOrderAsPaid = asyncHandler(async (req, res) => {
             id: req.body.id,
             status: req.body.status,
             update_time: req.body.update_time,
-            email: req.body.payer.email
+            email: req.user.email
         }
 
-        const updatedOrder = await requestedOrder.save();
-        res.status(200).json(updatedOrder);
+        await requestedOrder.save();
+        console.log("saved successfully");
+        next();
     } catch (error) {
         res.status(500).json({message: error.message});
     }
@@ -229,5 +305,9 @@ export {
     getOrderById,
     createOrder,
     markOrderAsPaid,
-    markOrderAsDelivered
+    markOrderAsDelivered,
+    checkOutOrder,
+    getStripeKey,
+    orderPaymentError,
+    orderPaymentSuccess
 }

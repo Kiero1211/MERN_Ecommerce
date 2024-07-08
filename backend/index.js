@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import cookieParser from "cookie-parser";
 
+
 // Utils
 import connectDB from "./config/db.js"
 import routes from "./routes/index.js";
@@ -15,7 +16,6 @@ const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname + "/uploads")))
 
 connectDB();
-
 
 // Config middlewares
 app.use(express.json());

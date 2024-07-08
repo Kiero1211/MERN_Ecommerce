@@ -9,7 +9,9 @@ import {
     getTotalSalesByDateOrders,
     getOrderById,
     markOrderAsPaid,
-    markOrderAsDelivered
+    markOrderAsDelivered,
+    checkOutOrder,
+    getStripeKey,
 } from "../controllers/orderController.js";
 const router = Router();
 
@@ -18,10 +20,14 @@ router.route("/all/count").get(authorize, authorizeAdmin, getTotalNumberOrders);
 router.route("/all/sales").get(authorize, authorizeAdmin, getTotalSalesOrders);
 router.route("/all/sales-by-date").get(authorize, authorizeAdmin, getTotalSalesByDateOrders);
 router.route("/current").get(authorize, getCurrentOrder);
+
+
 router.route("/:id").get(authorize, getOrderById);
 
-router.route("/:id/pay").put(authorize, markOrderAsPaid);
+router.route("/:id/pay").put(authorize, markOrderAsPaid); 
 router.route("/:id/deliver").put(authorize, markOrderAsDelivered);
+router.route("/:id/checkout").post(authorize, markOrderAsPaid, checkOutOrder);
+router.route("/:id/checkout/key").get(authorize, getStripeKey);
 
 router.route("/create").post(authorize, createOrder);
 

@@ -1,3 +1,4 @@
+import { orderPaymentError, orderPaymentSuccess } from "../controllers/orderController.js";
 import { Router } from "express";
 const routes = Router();
 
@@ -13,4 +14,7 @@ routes.use("/api/products/", productRoutes);
 routes.use("/api/upload/", uploadRoutes);
 routes.use("/api/orders/", orderRoutes);
 
-export default routes;
+routes.get("/success", orderPaymentSuccess);
+routes.get("/error", orderPaymentError);
+
+export default routes;  

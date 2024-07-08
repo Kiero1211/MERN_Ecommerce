@@ -8,8 +8,9 @@ import Loader from "../../components/Loader";
 import {
 	useDeliverOrderMutation,
 	useFetchOrderDetailsQuery,
-	useGetPaypalClientIdQuery,
-    usePayOrderMutation
+    usePayOrderMutation,
+    useFetchStripeKeyQuery,
+    useCreateStripePaymentMutation
 } from "../../redux/api/orderApiSlice";
 
 import { loadStripe } from "@stripe/stripe-js";
@@ -22,32 +23,25 @@ function Order() {
     const [payOrderApiCall, {isLoading: loadingPayment}] = usePayOrderMutation();
     const userInfo = useSelector(userInfoSelector);
 
-	if (isLoading) {
+    const [stripePaymentApiCall] = useCreateStripePaymentMutation();
+    if (isLoading) {
         return <Loader/>
     }
-
+    
     if (error) {
         return <Message variant="error">{error.data.message}</Message>
     }
-
+    
     const handlePayment = async () => {
-        const stripe = loadStripe(process.env.REACT_APP_STRIPE_KEY);
-
-        const body = {
-            products: order.orderItems,
-        }
-
-        const headers = {
-            "Content-Type": "application/json"
-        }
-
-        const response = await fetch(`/order/${orderId}/checkout`, {
-            method: "POST",
-            headers,
-            body: JSON.stringify(body)
-        });
-
-        const session = await response.json();
+        const stripe = await loadStripe("pk_test_51PaBcWDDjI4m9kkyGD5Dw8YFSyiOfpqVknG1HNBPqZVcjyVcUJQIlbxfNNvnvRKVsDRZ9p9yKBWiqGp9JI4tpUVI00ZF2KF54h");
+        const session = await stripePaymentApiCall({
+            orderId, 
+            products: order?.orderItems || {},
+            taxPrice: order?.taxPrice,
+            shippingPrice: order?.shippingPrice,
+            totalPrice: order?.totalPrice
+        }).unwrap();
+        
         const result = stripe.redirectToCheckout({
             sessionId: session.id
         })
